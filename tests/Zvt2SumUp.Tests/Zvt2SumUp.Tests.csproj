@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <NoWarn>$(NoWarn);xUnit1051;CA2022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Zvt2SumUp.Core\Zvt2SumUp.Core.csproj" />
+    <ProjectReference Include="..\..\src\Zvt2SumUp.Protocol\Zvt2SumUp.Protocol.csproj" />
+    <ProjectReference Include="..\..\src\Zvt2SumUp.SumUp\Zvt2SumUp.SumUp.csproj" />
+    <ProjectReference Include="..\..\src\Zvt2SumUp.Infrastructure\Zvt2SumUp.Infrastructure.csproj" />
+  </ItemGroup>
+  <Target Name="BuildToolsForIntegrationTests" BeforeTargets="Build">
+    <MSBuild Projects="..\..\src\Zvt2SumUp.Tools\Zvt2SumUp.Tools.csproj"
+             Targets="Build"
+             Properties="Configuration=$(Configuration)" />
+  </Target>
+</Project>

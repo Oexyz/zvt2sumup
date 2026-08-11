@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Zvt2SumUp.Core/Zvt2SumUp.Core.csproj" />
+    <Project Path="src/Zvt2SumUp.Protocol/Zvt2SumUp.Protocol.csproj" />
+    <Project Path="src/Zvt2SumUp.SumUp/Zvt2SumUp.SumUp.csproj" />
+    <Project Path="src/Zvt2SumUp.Infrastructure/Zvt2SumUp.Infrastructure.csproj" />
+    <Project Path="src/Zvt2SumUp.Service/Zvt2SumUp.Service.csproj" />
+    <Project Path="src/Zvt2SumUp.Desktop/Zvt2SumUp.Desktop.csproj" />
+    <Project Path="src/Zvt2SumUp.Tools/Zvt2SumUp.Tools.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Zvt2SumUp.Tests/Zvt2SumUp.Tests.csproj" />
+  </Folder>
+</Solution>

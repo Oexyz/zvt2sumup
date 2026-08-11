@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Zvt2SumUp.Core\Zvt2SumUp.Core.csproj" />
+    <ProjectReference Include="..\Zvt2SumUp.Protocol\Zvt2SumUp.Protocol.csproj" />
+    <ProjectReference Include="..\Zvt2SumUp.SumUp\Zvt2SumUp.SumUp.csproj" />
+    <PackageReference Include="System.IO.Ports" Version="10.0.11" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.11" />
+  </ItemGroup>
+</Project>

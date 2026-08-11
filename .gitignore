@@ -1,0 +1,31 @@
+# Build- und IDE-Ausgaben
+**/bin/
+**/obj/
+.packages/
+.dotnet/
+artifacts/
+.vs/
+.idea/
+*.user
+*.suo
+TestResults/
+
+# Lokale Laufzeit- und Zahlungsdaten
+config.ini
+secrets.dat
+transaction_journal.json
+receipt_counter.txt
+receipt_templates.ini
+*.log
+*.log.*
+*.bak
+*.download
+.env
+.env.*
+
+# Betriebssystem/Editor
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*.tmp

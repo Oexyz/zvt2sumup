@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Zvt2SumUp.Service</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Zvt2SumUp.Core\Zvt2SumUp.Core.csproj" />
+    <ProjectReference Include="..\Zvt2SumUp.Protocol\Zvt2SumUp.Protocol.csproj" />
+    <ProjectReference Include="..\Zvt2SumUp.SumUp\Zvt2SumUp.SumUp.csproj" />
+    <ProjectReference Include="..\Zvt2SumUp.Infrastructure\Zvt2SumUp.Infrastructure.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="10.0.11" />
+  </ItemGroup>
+</Project>
