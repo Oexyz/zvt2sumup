@@ -45,15 +45,13 @@ jobs:
           if ($env:GITHUB_REF_NAME -cne "v$version") {
             throw "Tag $env:GITHUB_REF_NAME stimmt nicht exakt mit Projektversion $version überein."
           }
-          $ErrorActionPreference = 'Continue'
-          gh release view $env:GITHUB_REF_NAME --repo $env:GITHUB_REPOSITORY 2>$null | Out-Null
-          $releaseViewExitCode = $LASTEXITCODE
-          $ErrorActionPreference = 'Stop'
-          if ($releaseViewExitCode -eq 0) {
-            throw "Release $env:GITHUB_REF_NAME existiert bereits und wird nicht überschrieben."
+          $releaseListJson = gh release list --repo $env:GITHUB_REPOSITORY --limit 1000 --json tagName
+          if ($LASTEXITCODE -ne 0) {
+            throw "Vorhandene Releases konnten nicht sicher geprüft werden (Exitcode $LASTEXITCODE)."
           }
-          if ($releaseViewExitCode -ne 1) {
-            throw "Vorhandene Releases konnten nicht sicher geprüft werden (Exitcode $releaseViewExitCode)."
+          $releaseTags = @($releaseListJson | ConvertFrom-Json | ForEach-Object tagName)
+          if ($releaseTags -ccontains $env:GITHUB_REF_NAME) {
+            throw "Release $env:GITHUB_REF_NAME existiert bereits und wird nicht überschrieben."
           }
 
       - name: Reject tracked runtime secrets and payment data
