@@ -12,7 +12,7 @@
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditMode>all</NuGetAuditMode>
     <DebugType Condition="'$(Configuration)' == 'Release'">embedded</DebugType>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>ZVT2SumUp contributors</Authors>
     <Product>ZVT2SumUp</Product>
     <Description>Native Windows payment gateway connecting ZVT 13.13 point-of-sale systems with SumUp terminals.</Description>

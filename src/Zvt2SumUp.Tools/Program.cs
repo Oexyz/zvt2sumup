@@ -338,6 +338,7 @@ Ein Update erfordert --confirm-update und wird normalerweise von der GUI gestart
 
     private static async Task<int> VerifyReleaseAsync()
     {
+        string verificationRoot = Path.Combine(Path.GetTempPath(), "ZVT2SumUp", "release-verification", Guid.NewGuid().ToString("N"));
         using IniOptionsStore optionsStore = new(AppPaths.Configuration);
         GatewayOptions options = await optionsStore.LoadAsync().ConfigureAwait(false);
         using HttpClient updateHttp = new()
@@ -348,7 +349,8 @@ Ein Update erfordert --confirm-update und wird normalerweise von der GUI gestart
         updateHttp.DefaultRequestHeaders.UserAgent.ParseAdd("ZVT2SumUp-Updater/1.0");
         updateHttp.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.github+json");
         SecureReleaseUpdateService updateService = new(
-            updateHttp, options, NullLogger<SecureReleaseUpdateService>.Instance);
+            updateHttp, options, NullLogger<SecureReleaseUpdateService>.Instance,
+            verificationRoot, hardenStaging: false);
         UpdateInformation information = await updateService.CheckAsync().ConfigureAwait(false);
         if (!string.IsNullOrEmpty(information.Error)) throw new InvalidOperationException(information.Error);
         if (information.RemoteVersion is null || information.PackageUrl is null || information.ChecksumsUrl is null)
@@ -368,9 +370,11 @@ Ein Update erfordert --confirm-update und wird normalerweise von der GUI gestart
         {
             if (prepared is not null)
             {
-                string staging = EnsurePathInsideUpdates(prepared.StagingDirectory, requireDirectory: true);
+                string staging = EnsurePathInsideRoot(prepared.StagingDirectory, verificationRoot, requireDirectory: true);
                 Directory.Delete(staging, recursive: true);
             }
+            if (Directory.Exists(verificationRoot) && !Directory.EnumerateFileSystemEntries(verificationRoot).Any())
+                Directory.Delete(verificationRoot);
         }
     }
 
@@ -471,11 +475,15 @@ Ein Update erfordert --confirm-update und wird normalerweise von der GUI gestart
     }
 
     private static string EnsurePathInsideUpdates(string path, bool requireDirectory)
+        => EnsurePathInsideRoot(path, AppPaths.Updates, requireDirectory);
+
+    private static string EnsurePathInsideRoot(string path, string allowedRoot, bool requireDirectory)
     {
-        string root = Path.GetFullPath(AppPaths.Updates).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+        string root = Path.GetFullPath(allowedRoot).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
         string full = Path.GetFullPath(path);
         if (!full.StartsWith(root, StringComparison.OrdinalIgnoreCase) || full.Equals(root.TrimEnd(Path.DirectorySeparatorChar), StringComparison.OrdinalIgnoreCase))
             throw new InvalidDataException("Updatepfad liegt außerhalb des erlaubten Stagingordners.");
+        UpdateDirectorySecurity.EnsureNoReparsePoints(full);
         FileAttributes attributes = File.GetAttributes(full);
         if (attributes.HasFlag(FileAttributes.ReparsePoint)) throw new InvalidDataException("Updatepfad ist ein Umleitungspunkt.");
         if (requireDirectory != attributes.HasFlag(FileAttributes.Directory)) throw new InvalidDataException("Updatepfad besitzt einen unerwarteten Typ.");

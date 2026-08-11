@@ -247,7 +247,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.11, )",
-          "Zvt2SumUp.Core": "[1.0.0, )"
+          "Zvt2SumUp.Core": "[1.0.1, )"
         }
       }
     }
