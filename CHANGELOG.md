@@ -10,10 +10,6 @@ Projekt verwendet semantische Versionsnummern.
 - Die nicht installierende Live-Release-Prüfung verwendet nun einen isolierten
   Benutzer-Tempordner und funktioniert ohne Administratorrechte. Die eigentliche
   Updateinstallation bleibt weiterhin UAC- und ACL-geschützt.
-- Build- und Release-Workflows verwenden exakt das in `global.json` festgelegte
-  .NET SDK, damit RID-spezifische Locked-Restores reproduzierbar bleiben.
-- Die Release-Existenzprüfung unterscheidet sicher zwischen einem noch nicht
-  vorhandenen Release und einem echten GitHub-API-Fehler.
 
 ## [1.0.0] - 2026-08-11
 
